@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   trained_uma_factor.init({
   }, {
     sequelize,
-    modelName: 'trained_uma_factor',
+    modelName: 'trained_uma_factors',
   });
   return trained_uma_factor;
 };

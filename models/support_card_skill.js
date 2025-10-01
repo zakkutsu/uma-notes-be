@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   SupportCard_Skills.init({
   }, {
     sequelize,
-    modelName: 'SupportCard_Skills',
+    modelName: 'support_card_skills',
   });
   return SupportCard_Skills;
 };

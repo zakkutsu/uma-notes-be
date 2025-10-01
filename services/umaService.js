@@ -26,8 +26,37 @@ const createUma = async (umaData) => {
   return await umas.create(umaData);
 };
 
+/**
+ * Memperbarui data Uma berdasarkan ID.
+ * @param {number} umaId - ID dari Uma yang akan diperbarui
+ * @param {object} umaData - Data baru untuk Uma
+ */
+const updateUma = async (umaId, umaData) => {
+  const uma = await umas.findByPk(umaId);
+  if (!uma) {
+    return null; // Kembalikan null jika data tidak ditemukan
+  }
+  // Lakukan update dan kembalikan data yang sudah diperbarui
+  return await uma.update(umaData);
+};
+
+/**
+ * Menghapus data Uma berdasarkan ID.
+ * @param {number} umaId - ID dari Uma yang akan dihapus
+ */
+const deleteUma = async (umaId) => {
+  const uma = await umas.findByPk(umaId);
+  if (!uma) {
+    return 0; // Kembalikan 0 jika tidak ada data yang dihapus
+  }
+  await uma.destroy();
+  return 1; // Kembalikan 1 menandakan 1 baris berhasil dihapus
+};
+
 module.exports = {
   findAllUmas,
   findUmaById,
-  createUma, // Ekspor fungsi baru
+  createUma,
+  updateUma,
+  deleteUma,
 };

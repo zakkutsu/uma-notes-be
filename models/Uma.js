@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // Uma memiliki banyak Skill (melalui tabel Uma_Skills)
       Umas.belongsToMany(models.skills, {
-        through: 'Uma_Skills',      // Nama tabel penghubung
+        through: 'uma_skills',      // Nama tabel penghubung
         foreignKey: 'uma_id',       // Kunci di tabel penghubung yang merujuk ke Umas
         otherKey: 'skill_id'        // Kunci di tabel penghubung yang merujuk ke Skills
       });

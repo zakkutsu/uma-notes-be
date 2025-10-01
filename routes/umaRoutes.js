@@ -12,4 +12,10 @@ router.get('/:id', umaController.getUmaById);
 // Tambahkan route POST baru
 router.post('/', umaController.createUma);
 
+// Endpoint untuk memperbarui data Uma
+router.put('/:id', umaController.updateUma);
+
+// Endpoint untuk menghapus data Uma
+router.delete('/:id', umaController.deleteUma);
+
 module.exports = router;

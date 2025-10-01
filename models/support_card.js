@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // SupportCard memiliki banyak Skill (melalui tabel SupportCard_Skills)
       SupportCards.belongsToMany(models.skills, {
-        through: 'SupportCard_Skills',
+        through: 'support_card_skills',
         foreignKey: 'support_card_id', // Pastikan ini snake_case
         otherKey: 'skill_id',
       });

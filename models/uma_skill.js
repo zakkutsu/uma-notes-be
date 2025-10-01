@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   Uma_Skills.init({
   }, {
     sequelize,
-    modelName: 'Uma_Skills',
+    modelName: 'uma_skills',
   });
   return Uma_Skills;
 };

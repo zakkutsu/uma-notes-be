@@ -1,12 +1,12 @@
 // services/trainedUmaService.js
 
-const { trained_uma, umas, factors, skills } = require('../models');
+const { trained_umas, umas, factors, skills } = require('../models');
 
 /**
  * Mengambil semua data Trained Uma.
  */
 const findAllTrainedUmas = async () => {
-  return await trained_uma.findAll({
+  return await trained_umas.findAll({
     // Sertakan nama dari Uma dasarnya agar mudah ditampilkan
     include: {
       model: umas,
@@ -21,12 +21,12 @@ const findAllTrainedUmas = async () => {
  * @param {number} id - ID dari Trained Uma
  */
 const findTrainedUmaById = async (id) => {
-  return await trained_uma.findByPk(id, {
+  return await trained_umas.findByPk(id, {
     // Ini adalah query JOIN yang kompleks untuk mengambil semua data terkait
     include: [
       { model: umas, as: 'base_uma' },
-      { model: trained_uma, as: 'parent1' },
-      { model: trained_uma, as: 'parent2' },
+      { model: trained_umas, as: 'parent1' },
+      { model: trained_umas, as: 'parent2' },
       { 
         model: factors, 
         as: 'factors',

@@ -5,6 +5,8 @@ const express = require('express');
 const sequelize = require('./models').sequelize; // Ambil instance sequelize dari models/index.js
 const umaRoutes = require('./routes/umaRoutes');
 const factorRoutes = require('./routes/factorRoutes');
+const seederRoutes = require('./routes/seederRoutes');
+const DatabaseSeeder = require('./seeders/databaseSeeder');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +16,7 @@ app.use(express.json());
 // Gunakan route untuk endpoint /api/umas
 app.use('/api/umas', umaRoutes);
 app.use('/api/factors', factorRoutes);
+app.use('/api/seed', seederRoutes);
 
 const startServer = async () => {
   try {
@@ -25,7 +28,13 @@ const startServer = async () => {
     await sequelize.sync(syncOptions);
     console.log('Database tersinkronisasi.');
 
-    // 2. Setelah database siap, jalankan server
+    // 2. Jalankan auto seeder setelah database sync
+    if (process.env.AUTO_SEED === 'true') {
+      console.log('🌱 Auto-seeding enabled, running seeders...');
+      await DatabaseSeeder.seedAll();
+    }
+
+    // 3. Setelah database siap, jalankan server
     app.listen(PORT, () => {
       console.log(`Server berjalan di http://localhost:${PORT}`);
     });

@@ -13,20 +13,20 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       // Relasi ke diri sendiri untuk orang tua pertama
-      TrainedUma.belongsTo(models.trained_uma, {
+      TrainedUma.belongsTo(models.trained_umas, {
         foreignKey: 'parent1_id',
         as: 'parent1'
       });
 
       // Relasi ke diri sendiri untuk orang tua kedua
-      TrainedUma.belongsTo(models.trained_uma, {
+      TrainedUma.belongsTo(models.trained_umas, {
         foreignKey: 'parent2_id',
         as: 'parent2'
       });
       
       // Relasi ke Factors (satu TrainedUma punya banyak Factor)
       TrainedUma.belongsToMany(models.factors, {
-        through: 'trained_uma_factor',
+        through: 'trained_uma_factors',
         foreignKey: 'trained_uma_id',
         otherKey: 'factor_id',
         as: 'factors'
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
 
       // Relasi ke Skills (satu TrainedUma mempelajari banyak Skill)
       TrainedUma.belongsToMany(models.skills, {
-        through: 'trained_uma_acquired_skill',
+        through: 'trained_uma_acquired_skills',
         foreignKey: 'trained_uma_id',
         otherKey: 'skill_id',
         as: 'acquired_skills'
@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
     parent2_id: DataTypes.INTEGER,
   }, {
     sequelize,
-    modelName: 'trained_uma',
+    modelName: 'trained_umas',
   });
   return TrainedUma;
 };
