@@ -5,6 +5,9 @@ const express = require('express');
 const sequelize = require('./models').sequelize; // Ambil instance sequelize dari models/index.js
 const umaRoutes = require('./routes/umaRoutes');
 const factorRoutes = require('./routes/factorRoutes');
+const supportCardRoutes = require('./routes/supportCardRoutes');
+const trainedUmaRoutes = require('./routes/trainedUmaRoutes');
+const skillRoutes = require('./routes/skillRoutes');
 const seederRoutes = require('./routes/seederRoutes');
 const DatabaseSeeder = require('./seeders/databaseSeeder');
 
@@ -13,10 +16,13 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Gunakan route untuk endpoint /api/umas
-app.use('/api/umas', umaRoutes);
-app.use('/api/factors', factorRoutes);
-app.use('/api/seed', seederRoutes);
+// Gunakan route untuk endpoint /api/v1/umas
+app.use('/api/v1/umas', umaRoutes);
+app.use('/api/v1/factors', factorRoutes);
+app.use('/api/v1/support-cards', supportCardRoutes);
+app.use('/api/v1/trained-umas', trainedUmaRoutes);
+app.use('/api/v1/skills', skillRoutes);
+app.use('/api/v1/seed', seederRoutes);
 
 const startServer = async () => {
   try {
