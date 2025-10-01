@@ -19,7 +19,8 @@ const successResponseWithPagination = (data, message, code = 200, paginationInfo
     meta: {
       code,
       status: message,
-      message: true
+      message: true,
+      isPaginated: paginationInfo ? true : false
     }
   };
 
@@ -30,7 +31,7 @@ const successResponseWithPagination = (data, message, code = 200, paginationInfo
     const startIndex = ((currentPage - 1) * limit) + 1;
     const endIndex = Math.min(currentPage * limit, totalRows);
 
-    response.meta.isPaginated = {
+    response.pagination = {
       currentPage,
       totalPages,
       totalRows,
@@ -41,8 +42,6 @@ const successResponseWithPagination = (data, message, code = 200, paginationInfo
       endIndex,
       showing: `${startIndex}-${endIndex} of ${totalRows} items`
     };
-  } else {
-    response.meta.isPaginated = false;
   }
 
   response.data = data;
