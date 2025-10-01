@@ -4,11 +4,26 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class trained_uma_acquired_skill extends Model {}
-  trained_uma_acquired_skill.init({
+  class TrainedUma_AcquiredSkills extends Model {}
+  TrainedUma_AcquiredSkills.init({
+    trained_uma_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'trained_umas',
+        key: 'id'
+      }
+    },
+    skill_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'skills',
+        key: 'id'
+      }
+    }
   }, {
     sequelize,
     modelName: 'trained_uma_acquired_skills',
+    timestamps: false
   });
-  return trained_uma_acquired_skill;
+  return TrainedUma_AcquiredSkills;
 };

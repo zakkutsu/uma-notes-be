@@ -57,53 +57,98 @@ class DatabaseSeeder {
     const umasData = [
       {
         name: 'Special Week',
+        star_initial: 3,
+        speed_aptitude: 'A',
+        stamina_aptitude: 'B', 
+        power_aptitude: 'A',
+        guts_aptitude: 'B',
+        wit_aptitude: 'A',
         turf_aptitude: 'A',
-        dirt_aptitude: 'G'
+        dirt_aptitude: 'G',
+        sprint_aptitude: 'G',
+        mile_aptitude: 'A',
+        medium_aptitude: 'A',
+        long_aptitude: 'B',
+        runner_aptitude: 'G',
+        leader_aptitude: 'B',
+        betweener_aptitude: 'A',
+        chaser_aptitude: 'G'
       },
       {
         name: 'Silence Suzuka',
+        star_initial: 3,
+        speed_aptitude: 'A',
+        stamina_aptitude: 'A',
+        power_aptitude: 'C',
+        guts_aptitude: 'C',
+        wit_aptitude: 'A',
         turf_aptitude: 'A',
-        dirt_aptitude: 'G'
+        dirt_aptitude: 'G',
+        sprint_aptitude: 'A',
+        mile_aptitude: 'A',
+        medium_aptitude: 'A',
+        long_aptitude: 'G',
+        runner_aptitude: 'A',
+        leader_aptitude: 'B',
+        betweener_aptitude: 'G',
+        chaser_aptitude: 'G'
       },
       {
         name: 'Tokai Teio',
+        star_initial: 3,
+        speed_aptitude: 'A',
+        stamina_aptitude: 'A',
+        power_aptitude: 'B',
+        guts_aptitude: 'A',
+        wit_aptitude: 'B',
         turf_aptitude: 'A',
-        dirt_aptitude: 'E'
+        dirt_aptitude: 'E',
+        sprint_aptitude: 'G',
+        mile_aptitude: 'A',
+        medium_aptitude: 'A',
+        long_aptitude: 'A',
+        runner_aptitude: 'G',
+        leader_aptitude: 'A',
+        betweener_aptitude: 'B',
+        chaser_aptitude: 'G'
       },
       {
         name: 'Vodka',
+        star_initial: 3,
+        speed_aptitude: 'B',
+        stamina_aptitude: 'A',
+        power_aptitude: 'A',
+        guts_aptitude: 'A',
+        wit_aptitude: 'B',
         turf_aptitude: 'A',
-        dirt_aptitude: 'F'
+        dirt_aptitude: 'F',
+        sprint_aptitude: 'G',
+        mile_aptitude: 'B',
+        medium_aptitude: 'A',
+        long_aptitude: 'A',
+        runner_aptitude: 'G',
+        leader_aptitude: 'G',
+        betweener_aptitude: 'B',
+        chaser_aptitude: 'A'
       },
       {
         name: 'Daiwa Scarlet',
+        star_initial: 3,
+        speed_aptitude: 'A',
+        stamina_aptitude: 'B',
+        power_aptitude: 'A',
+        guts_aptitude: 'A',
+        wit_aptitude: 'B',
         turf_aptitude: 'A',
-        dirt_aptitude: 'D'
-      },
-      {
-        name: 'Gold Ship',
-        turf_aptitude: 'A',
-        dirt_aptitude: 'G'
-      },
-      {
-        name: 'Mejiro McQueen',
-        turf_aptitude: 'A',
-        dirt_aptitude: 'G'
-      },
-      {
-        name: 'El Condor Pasa',
-        turf_aptitude: 'A',
-        dirt_aptitude: 'A'
-      },
-      {
-        name: 'T.M. Opera O',
-        turf_aptitude: 'A',
-        dirt_aptitude: 'A'
-      },
-      {
-        name: 'Narita Brian',
-        turf_aptitude: 'A',
-        dirt_aptitude: 'F'
+        dirt_aptitude: 'D',
+        sprint_aptitude: 'G',
+        mile_aptitude: 'A',
+        medium_aptitude: 'A',
+        long_aptitude: 'G',
+        runner_aptitude: 'G',
+        leader_aptitude: 'A',
+        betweener_aptitude: 'B',
+        chaser_aptitude: 'G'
       }
     ];
 
@@ -114,53 +159,63 @@ class DatabaseSeeder {
     const skillsData = [
       {
         skill_name: 'Concentration',
-        skill_type: 'Speed',
-        description: 'Improves starting time and early acceleration'
+        skill_effect: 'Improves starting time and early acceleration',
+        skill_rarity: 'Normal',
+        skill_type: 'Speed'
       },
       {
         skill_name: 'Pace Up',
-        skill_type: 'Speed',
-        description: 'Slightly increases pace during the race'
+        skill_effect: 'Slightly increases pace during the race',
+        skill_rarity: 'Normal',
+        skill_type: 'Speed'
       },
       {
         skill_name: 'Positioning',
-        skill_type: 'Strategy',
-        description: 'Better positioning during turns'
+        skill_effect: 'Better positioning during turns',
+        skill_rarity: 'Normal',
+        skill_type: 'Position'
       },
       {
         skill_name: 'Stamina Keeper',
-        skill_type: 'Stamina',
-        description: 'Maintains stamina for longer periods'
+        skill_effect: 'Maintains stamina for longer periods',
+        skill_rarity: 'Rare',
+        skill_type: 'Stamina'
       },
       {
         skill_name: 'Power Charge',
-        skill_type: 'Power',
-        description: 'Increases power in the final stretch'
+        skill_effect: 'Increases power in the final stretch',
+        skill_rarity: 'Rare',
+        skill_type: 'Power'
       },
       {
         skill_name: 'Mental Strength',
-        skill_type: 'Guts',
-        description: 'Improves performance under pressure'
+        skill_effect: 'Improves performance under pressure',
+        skill_rarity: 'Normal',
+        skill_type: 'Guts'
       },
       {
         skill_name: 'Quick Thinking',
-        skill_type: 'Wit',
-        description: 'Faster decision making during race'
+        skill_effect: 'Faster decision making during race',
+        skill_rarity: 'Normal',
+        skill_type: 'Wit'
       },
       {
-        skill_name: 'Cornering',
-        skill_type: 'Strategy',
-        description: 'Better performance on turns'
+        skill_name: 'Full Throttle',
+        skill_effect: 'Unique skill that maximizes speed potential',
+        skill_rarity: 'Unique',
+        skill_type: 'Speed'
       },
       {
-        skill_name: 'Final Spurt',
-        skill_type: 'Speed',
-        description: 'Extra burst of speed in final stretch'
+        skill_name: 'Silent Storm',
+        skill_effect: 'Unique acceleration skill for early race dominance',
+        skill_rarity: 'Unique',
+        skill_type: 'Acceleration'
       },
       {
         skill_name: 'Recovery',
-        skill_type: 'Stamina',
-        description: 'Faster stamina recovery'
+        skill_effect: 'Faster stamina recovery during race',
+        skill_rarity: 'Normal',
+        skill_type: 'Recovery'
       }
     ];
 
@@ -171,78 +226,63 @@ class DatabaseSeeder {
     const factorsData = [
       {
         factor_name: 'Speed Factor Blue',
-        stars: 1,
-        factor_type: 'Speed'
+        factor_type: 'Stat',
+        color: 'Blue',
+        star_rating: 1
       },
       {
         factor_name: 'Speed Factor Red',
-        stars: 2,
-        factor_type: 'Speed'
+        factor_type: 'Stat',
+        color: 'Red',
+        star_rating: 2
       },
       {
         factor_name: 'Speed Factor Rainbow',
-        stars: 3,
-        factor_type: 'Speed'
+        factor_type: 'Stat',
+        color: 'Rainbow',
+        star_rating: 3
       },
       {
         factor_name: 'Stamina Factor Blue',
-        stars: 1,
-        factor_type: 'Stamina'
+        factor_type: 'Stat',
+        color: 'Blue',
+        star_rating: 1
       },
       {
         factor_name: 'Stamina Factor Red',
-        stars: 2,
-        factor_type: 'Stamina'
+        factor_type: 'Stat',
+        color: 'Red',
+        star_rating: 2
       },
       {
         factor_name: 'Stamina Factor Rainbow',
-        stars: 3,
-        factor_type: 'Stamina'
+        factor_type: 'Stat',
+        color: 'Rainbow',
+        star_rating: 3
       },
       {
-        factor_name: 'Power Factor Blue',
-        stars: 1,
-        factor_type: 'Power'
+        factor_name: 'Mile Distance Factor',
+        factor_type: 'Distance',
+        color: 'Green',
+        star_rating: 2
       },
       {
-        factor_name: 'Power Factor Red',
-        stars: 2,
-        factor_type: 'Power'
+        factor_name: 'Long Distance Factor',
+        factor_type: 'Distance',
+        color: 'Green',
+        star_rating: 2
       },
       {
-        factor_name: 'Power Factor Rainbow',
-        stars: 3,
-        factor_type: 'Power'
+        factor_name: 'Turf Surface Factor',
+        factor_type: 'Surface',
+        color: 'White',
+        star_rating: 1
       },
       {
-        factor_name: 'Guts Factor Blue',
-        stars: 1,
-        factor_type: 'Guts'
-      },
-      {
-        factor_name: 'Guts Factor Red',
-        stars: 2,
-        factor_type: 'Guts'
-      },
-      {
-        factor_name: 'Guts Factor Rainbow',
-        stars: 3,
-        factor_type: 'Guts'
-      },
-      {
-        factor_name: 'Wit Factor Blue',
-        stars: 1,
-        factor_type: 'Wit'
-      },
-      {
-        factor_name: 'Wit Factor Red',
-        stars: 2,
-        factor_type: 'Wit'
-      },
-      {
-        factor_name: 'Wit Factor Rainbow',
-        stars: 3,
-        factor_type: 'Wit'
+        factor_name: 'Leader Strategy Factor',
+        factor_type: 'Strategy',
+        color: 'Blue',
+        star_rating: 1
       }
     ];
 

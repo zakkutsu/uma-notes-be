@@ -25,8 +25,26 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    stars: DataTypes.INTEGER,
-    factor_type: DataTypes.STRING,
+    factor_type: {
+      type: DataTypes.STRING,
+      validate: { 
+        isIn: [['Stat', 'Distance', 'Surface', 'Strategy', 'Skill']] 
+      }
+    },
+    color: {
+      type: DataTypes.STRING,
+      validate: { 
+        isIn: [['Blue', 'Red', 'Green', 'White', 'Rainbow']] 
+      }
+    },
+    star_rating: {
+      type: DataTypes.INTEGER,
+      validate: { 
+        min: 1, 
+        max: 3 
+      },
+      defaultValue: 1
+    }
   }, {
     sequelize,
     modelName: 'factors',
