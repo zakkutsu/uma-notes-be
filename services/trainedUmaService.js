@@ -5,8 +5,14 @@ const { trained_umas, umas, factors, skills } = require('../models');
 /**
  * Mengambil semua data Trained Uma.
  */
-const findAllTrainedUmas = async () => {
-  return await trained_umas.findAll({
+const findAllTrainedUmas = async (page = 1, limit = 10) => {
+  // Hitung offset untuk pagination
+  const offset = (page - 1) * limit;
+  
+  const { count, rows } = await trained_umas.findAndCountAll({
+    limit: parseInt(limit),
+    offset: parseInt(offset),
+    order: [['id', 'ASC']],
     // Sertakan nama dari Uma dasarnya agar mudah ditampilkan
     include: {
       model: umas,
@@ -14,6 +20,13 @@ const findAllTrainedUmas = async () => {
       attributes: ['name'] // Hanya ambil kolom nama
     }
   });
+  
+  return {
+    data: rows,
+    totalRows: count,
+    currentPage: parseInt(page),
+    limit: parseInt(limit)
+  };
 };
 
 /**

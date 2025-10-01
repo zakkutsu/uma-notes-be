@@ -1,13 +1,34 @@
 // controllers/umaController.js
 const umaService = require('../services/umaService');
+const { 
+  successResponseWithPagination, 
+  successResponse, 
+  errorResponse, 
+  deleteSuccessResponse,
+  calculatePagination 
+} = require('../helpers/responseFormatter');
 
 const getAllUmas = async (req, res) => {
   try {
+    // Ambil parameter pagination dari query
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    
     // Controller sekarang memanggil Service, bukan Model
-    const umas = await umaService.findAllUmas();
-    res.json(umas);
+    const result = await umaService.findAllUmas(page, limit);
+    const paginationInfo = calculatePagination(result.totalRows, page, limit);
+    
+    const response = successResponseWithPagination(
+      result.data, 
+      'Data Uma berhasil diambil',
+      200,
+      paginationInfo
+    );
+    
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ message: 'Error' });
+    const response = errorResponse('Gagal mengambil data Uma', 500, error.message);
+    res.status(500).json(response);
   }
 };
 
@@ -17,11 +38,15 @@ const getUmaById = async (req, res) => {
     const uma = await umaService.findUmaById(id);
 
     if (!uma) {
-      return res.status(404).json({ message: `Uma dengan id ${id} tidak ditemukan.` });
+      const response = errorResponse(`Uma dengan id ${id} tidak ditemukan`, 404);
+      return res.status(404).json(response);
     }
-    res.json(uma);
+    
+    const response = successResponse(uma, 'Data Uma berhasil diambil', 200);
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ message: 'Gagal mengambil data Uma', error: error.message });
+    const response = errorResponse('Gagal mengambil data Uma', 500, error.message);
+    res.status(500).json(response);
   }
 };
 
@@ -32,9 +57,11 @@ const createUma = async (req, res) => {
     const createdUma = await umaService.createUma(newUmaData);
 
     // Kirim response 201 Created yang menandakan sukses
-    res.status(201).json(createdUma);
+    const response = successResponse(createdUma, 'Data Uma berhasil dibuat', 201);
+    res.status(201).json(response);
   } catch (error) {
-    res.status(500).json({ message: 'Gagal membuat data Uma', error: error.message });
+    const response = errorResponse('Gagal membuat data Uma', 500, error.message);
+    res.status(500).json(response);
   }
 };
 
@@ -45,11 +72,15 @@ const updateUma = async (req, res) => {
     const updatedUma = await umaService.updateUma(id, umaData);
 
     if (!updatedUma) {
-      return res.status(404).json({ message: `Uma dengan id ${id} tidak ditemukan.` });
+      const response = errorResponse(`Uma dengan id ${id} tidak ditemukan`, 404);
+      return res.status(404).json(response);
     }
-    res.status(200).json(updatedUma);
+    
+    const response = successResponse(updatedUma, 'Data Uma berhasil diperbarui', 200);
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ message: 'Gagal memperbarui data Uma', error: error.message });
+    const response = errorResponse('Gagal memperbarui data Uma', 500, error.message);
+    res.status(500).json(response);
   }
 };
 
@@ -59,12 +90,16 @@ const deleteUma = async (req, res) => {
     const deletedCount = await umaService.deleteUma(id);
 
     if (deletedCount === 0) {
-      return res.status(404).json({ message: `Uma dengan id ${id} tidak ditemukan.` });
+      const response = errorResponse(`Uma dengan id ${id} tidak ditemukan`, 404);
+      return res.status(404).json(response);
     }
-    // 204 No Content adalah respons standar untuk delete yang sukses
-    res.status(204).send();
+    
+    // Kirim response sukses untuk delete
+    const response = deleteSuccessResponse('Data Uma berhasil dihapus', 200);
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ message: 'Gagal menghapus data Uma', error: error.message });
+    const response = errorResponse('Gagal menghapus data Uma', 500, error.message);
+    res.status(500).json(response);
   }
 };
 

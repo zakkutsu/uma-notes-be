@@ -1,19 +1,33 @@
 // controllers/skillController.js
 const skillService = require('../services/skillService');
+const { 
+  successResponseWithPagination, 
+  successResponse, 
+  errorResponse, 
+  deleteSuccessResponse,
+  calculatePagination 
+} = require('../helpers/responseFormatter');
 
 const getAllSkills = async (req, res) => {
   try {
-    const skills = await skillService.findAllSkills();
-    res.status(200).json({
-      success: true,
-      message: 'Skills berhasil diambil',
-      data: skills
-    });
+    // Ambil parameter pagination dari query
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    
+    const result = await skillService.findAllSkills(page, limit);
+    const paginationInfo = calculatePagination(result.totalRows, page, limit);
+    
+    const response = successResponseWithPagination(
+      result.data, 
+      'Skills berhasil diambil',
+      200,
+      paginationInfo
+    );
+    
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    const response = errorResponse('Gagal mengambil data skills', 500, error.message);
+    res.status(500).json(response);
   }
 };
 
@@ -23,22 +37,15 @@ const getSkillById = async (req, res) => {
     const skill = await skillService.findSkillById(skillId);
 
     if (!skill) {
-      return res.status(404).json({
-        success: false,
-        message: `Skill dengan id ${skillId} tidak ditemukan`
-      });
+      const response = errorResponse(`Skill dengan id ${skillId} tidak ditemukan`, 404);
+      return res.status(404).json(response);
     }
 
-    res.status(200).json({
-      success: true,
-      message: 'Skill berhasil diambil',
-      data: skill
-    });
+    const response = successResponse(skill, 'Skill berhasil diambil', 200);
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    const response = errorResponse('Gagal mengambil data skill', 500, error.message);
+    res.status(500).json(response);
   }
 };
 
@@ -47,16 +54,11 @@ const createSkill = async (req, res) => {
     const skillData = req.body;
     const newSkill = await skillService.createSkill(skillData);
 
-    res.status(201).json({
-      success: true,
-      message: 'Skill berhasil dibuat',
-      data: newSkill
-    });
+    const response = successResponse(newSkill, 'Skill berhasil dibuat', 201);
+    res.status(201).json(response);
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    const response = errorResponse('Gagal membuat skill', 500, error.message);
+    res.status(500).json(response);
   }
 };
 
@@ -67,22 +69,15 @@ const updateSkill = async (req, res) => {
     const updatedSkill = await skillService.updateSkill(skillId, skillData);
 
     if (!updatedSkill) {
-      return res.status(404).json({
-        success: false,
-        message: `Skill dengan id ${skillId} tidak ditemukan`
-      });
+      const response = errorResponse(`Skill dengan id ${skillId} tidak ditemukan`, 404);
+      return res.status(404).json(response);
     }
 
-    res.status(200).json({
-      success: true,
-      message: 'Skill berhasil diperbarui',
-      data: updatedSkill
-    });
+    const response = successResponse(updatedSkill, 'Skill berhasil diperbarui', 200);
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    const response = errorResponse('Gagal memperbarui skill', 500, error.message);
+    res.status(500).json(response);
   }
 };
 
@@ -92,21 +87,15 @@ const deleteSkill = async (req, res) => {
     const deletedRowsCount = await skillService.deleteSkill(skillId);
 
     if (deletedRowsCount === 0) {
-      return res.status(404).json({
-        success: false,
-        message: `Skill dengan id ${skillId} tidak ditemukan`
-      });
+      const response = errorResponse(`Skill dengan id ${skillId} tidak ditemukan`, 404);
+      return res.status(404).json(response);
     }
 
-    res.status(200).json({
-      success: true,
-      message: 'Skill berhasil dihapus'
-    });
+    const response = deleteSuccessResponse('Skill berhasil dihapus', 200);
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    const response = errorResponse('Gagal menghapus skill', 500, error.message);
+    res.status(500).json(response);
   }
 };
 

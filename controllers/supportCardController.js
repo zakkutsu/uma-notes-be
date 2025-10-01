@@ -1,13 +1,33 @@
 // controllers/supportCardController.js
 
 const supportCardService = require('../services/supportCardService');
+const { 
+  successResponseWithPagination, 
+  successResponse, 
+  errorResponse,
+  calculatePagination 
+} = require('../helpers/responseFormatter');
 
 const getAllSupportCards = async (req, res) => {
   try {
-    const cards = await supportCardService.findAllSupportCards();
-    res.status(200).json(cards);
+    // Ambil parameter pagination dari query
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    
+    const result = await supportCardService.findAllSupportCards(page, limit);
+    const paginationInfo = calculatePagination(result.totalRows, page, limit);
+    
+    const response = successResponseWithPagination(
+      result.data, 
+      'Data Support Cards berhasil diambil',
+      200,
+      paginationInfo
+    );
+    
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ message: 'Gagal mengambil data Support Cards', error: error.message });
+    const response = errorResponse('Gagal mengambil data Support Cards', 500, error.message);
+    res.status(500).json(response);
   }
 };
 
@@ -17,11 +37,15 @@ const getSupportCardById = async (req, res) => {
     const card = await supportCardService.findSupportCardByIdWithSkills(id);
 
     if (!card) {
-      return res.status(404).json({ message: `Support Card dengan id ${id} tidak ditemukan.` });
+      const response = errorResponse(`Support Card dengan id ${id} tidak ditemukan`, 404);
+      return res.status(404).json(response);
     }
-    res.status(200).json(card);
+    
+    const response = successResponse(card, 'Data Support Card berhasil diambil', 200);
+    res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ message: 'Gagal mengambil data Support Card', error: error.message });
+    const response = errorResponse('Gagal mengambil data Support Card', 500, error.message);
+    res.status(500).json(response);
   }
 };
 

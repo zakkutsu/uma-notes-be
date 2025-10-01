@@ -2,12 +2,23 @@
 const { umas } = require('../models');
 
 // Di sini logika bisnis berada. Saat ini masih sederhana.
-const findAllUmas = async () => {
-  // Service yang berkomunikasi dengan Model
-  const allUmas = await umas.findAll();
-  // Di masa depan, Anda bisa menambahkan logika lain di sini
-  // misalnya, menghitung total power dari semua uma, dll.
-  return allUmas;
+const findAllUmas = async (page = 1, limit = 10) => {
+  // Hitung offset untuk pagination
+  const offset = (page - 1) * limit;
+  
+  // Service yang berkomunikasi dengan Model dengan pagination
+  const { count, rows } = await umas.findAndCountAll({
+    limit: parseInt(limit),
+    offset: parseInt(offset),
+    order: [['id', 'ASC']] // Tambahkan ordering untuk konsistensi
+  });
+  
+  return {
+    data: rows,
+    totalRows: count,
+    currentPage: parseInt(page),
+    limit: parseInt(limit)
+  };
 };
 
 /**

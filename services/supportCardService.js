@@ -5,8 +5,22 @@ const { support_cards, skills } = require('../models');
 /**
  * Mengambil semua data Support Card.
  */
-const findAllSupportCards = async () => {
-  return await support_cards.findAll();
+const findAllSupportCards = async (page = 1, limit = 10) => {
+  // Hitung offset untuk pagination
+  const offset = (page - 1) * limit;
+  
+  const { count, rows } = await support_cards.findAndCountAll({
+    limit: parseInt(limit),
+    offset: parseInt(offset),
+    order: [['id', 'ASC']]
+  });
+  
+  return {
+    data: rows,
+    totalRows: count,
+    currentPage: parseInt(page),
+    limit: parseInt(limit)
+  };
 };
 
 /**

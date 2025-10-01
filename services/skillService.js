@@ -1,12 +1,23 @@
 // services/skillService.js
 const { skills } = require('../models');
 
-const findAllSkills = async () => {
+const findAllSkills = async (page = 1, limit = 10) => {
   try {
-    const allSkills = await skills.findAll({
+    // Hitung offset untuk pagination
+    const offset = (page - 1) * limit;
+    
+    const { count, rows } = await skills.findAndCountAll({
+      limit: parseInt(limit),
+      offset: parseInt(offset),
       order: [['id', 'ASC']]
     });
-    return allSkills;
+    
+    return {
+      data: rows,
+      totalRows: count,
+      currentPage: parseInt(page),
+      limit: parseInt(limit)
+    };
   } catch (error) {
     throw new Error(`Gagal mengambil data skills: ${error.message}`);
   }
