@@ -11,23 +11,21 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Sinkronisasi database
-// force: true akan menghapus tabel jika sudah ada (hati-hati di produksi)
-sequelize.sync({ force: false }).then(() => {
-  console.log('Database tersinkronisasi.');
-});
-
 // Gunakan route untuk endpoint /api/umas
 app.use('/api/umas', umaRoutes);
 app.use('/api/factors', factorRoutes);
 
 const startServer = async () => {
   try {
-    // 1. Tunggu sampai proses sinkronisasi database selesai
-    await sequelize.sync({ force: false });
+    // Opsi untuk sinkronisasi. `alter: true` akan mencoba mengubah tabel yang ada agar sesuai dengan model.
+    // Ini lebih aman daripada `force: true` karena tidak menghapus data.
+    const syncOptions = { alter: true };
+
+    // 1. Sinkronisasi database
+    await sequelize.sync(syncOptions);
     console.log('Database tersinkronisasi.');
 
-    // 2. Setelah database siap, BARU jalankan server
+    // 2. Setelah database siap, jalankan server
     app.listen(PORT, () => {
       console.log(`Server berjalan di http://localhost:${PORT}`);
     });

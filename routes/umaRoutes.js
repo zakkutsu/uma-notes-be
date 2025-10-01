@@ -9,4 +9,7 @@ router.get('/', umaController.getAllUmas);
 // Endpoint: GET /api/umas/:id
 router.get('/:id', umaController.getUmaById);
 
+// Tambahkan route POST baru
+router.post('/', umaController.createUma);
+
 module.exports = router;

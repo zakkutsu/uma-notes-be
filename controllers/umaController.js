@@ -25,7 +25,21 @@ const getUmaById = async (req, res) => {
   }
 };
 
+const createUma = async (req, res) => {
+  try {
+    // Ambil data dari body request
+    const newUmaData = req.body;
+    const createdUma = await umaService.createUma(newUmaData);
+
+    // Kirim response 201 Created yang menandakan sukses
+    res.status(201).json(createdUma);
+  } catch (error) {
+    res.status(500).json({ message: 'Gagal membuat data Uma', error: error.message });
+  }
+};
+
 module.exports = {
   getAllUmas,
   getUmaById,
+  createUma, // Ekspor fungsi baru
 };

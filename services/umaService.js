@@ -18,7 +18,16 @@ const findUmaById = async (umaId) => {
   return await umas.findByPk(umaId);
 };
 
+/**
+ * Membuat data Uma baru di database.
+ * @param {object} umaData - Data untuk Uma baru
+ */
+const createUma = async (umaData) => {
+  return await umas.create(umaData);
+};
+
 module.exports = {
   findAllUmas,
   findUmaById,
+  createUma, // Ekspor fungsi baru
 };
