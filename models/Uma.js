@@ -11,6 +11,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'uma_id',       // Kunci di tabel penghubung yang merujuk ke Umas
         otherKey: 'skill_id'        // Kunci di tabel penghubung yang merujuk ke Skills
       });
+      
+      // Menambahkan relasi polimorfik ke Image
+      Umas.hasMany(models.image, {
+        foreignKey: 'imageable_id',
+        constraints: false, // Wajib false untuk polimorfik
+        scope: {
+          imageable_type: 'uma' // Otomatis isi kolom imageable_type dengan 'uma'
+        }
+      });
     }
   }
   Umas.init({

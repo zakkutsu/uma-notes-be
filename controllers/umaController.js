@@ -52,10 +52,17 @@ const getUmaById = async (req, res) => {
 
 const createUma = async (req, res) => {
   try {
-    // Ambil data dari body request
-    const newUmaData = req.body;
-    const createdUma = await umaService.createUma(newUmaData);
+    const umaData = req.body; // Data teks (name, aptitude, dll)
 
+    let createdUma;
+    if (req.file) {
+      // Jika ada file, gunakan createUmaWithImage
+      createdUma = await umaService.createUmaWithImage(umaData, req.file);
+    } else {
+      // Jika tidak ada file, gunakan createUma biasa
+      createdUma = await umaService.createUma(umaData);
+    }
+    
     // Kirim response 201 Created yang menandakan sukses
     const response = successResponse(createdUma, 'Data Uma berhasil dibuat', 201);
     res.status(201).json(response);
@@ -69,6 +76,12 @@ const updateUma = async (req, res) => {
   try {
     const { id } = req.params;
     const umaData = req.body;
+    
+    // Jika ada file yang di-upload, tambahkan path-nya ke data
+    if (req.file) {
+      umaData.image_url = req.file.path.replace(/\\/g, "/").replace('public/', '');
+    }
+    
     const updatedUma = await umaService.updateUma(id, umaData);
 
     if (!updatedUma) {

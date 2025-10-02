@@ -51,8 +51,16 @@ const getSkillById = async (req, res) => {
 
 const createSkill = async (req, res) => {
   try {
-    const skillData = req.body;
-    const newSkill = await skillService.createSkill(skillData);
+    const skillData = req.body; // Data teks
+
+    let newSkill;
+    if (req.file) {
+      // Jika ada file, gunakan createSkillWithImage
+      newSkill = await skillService.createSkillWithImage(skillData, req.file);
+    } else {
+      // Jika tidak ada file, gunakan createSkill biasa
+      newSkill = await skillService.createSkill(skillData);
+    }
 
     const response = successResponse(newSkill, 'Skill berhasil dibuat', 201);
     res.status(201).json(response);
@@ -66,6 +74,9 @@ const updateSkill = async (req, res) => {
   try {
     const skillId = req.params.id;
     const skillData = req.body;
+    
+    // Untuk update, kita buat logika lebih sederhana dulu
+    // TODO: Implementasi update dengan gambar nanti
     const updatedSkill = await skillService.updateSkill(skillId, skillData);
 
     if (!updatedSkill) {

@@ -39,6 +39,15 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'skill_id',
         as: 'acquired_skills'
       });
+      
+      // Menambahkan relasi polimorfik ke Image
+      TrainedUma.hasMany(models.image, {
+        foreignKey: 'imageable_id',
+        constraints: false,
+        scope: {
+          imageable_type: 'trained_uma' // Sesuaikan scope ini
+        }
+      });
     }
   }
   TrainedUma.init({

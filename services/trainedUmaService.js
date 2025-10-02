@@ -1,6 +1,7 @@
 // services/trainedUmaService.js
 
-const { trained_umas, umas, factors, skills } = require('../models');
+const { trained_umas, umas, factors, skills, image } = require('../models');
+const { getPublicUrl } = require('../helpers/url');
 
 /**
  * Mengambil semua data Trained Uma.
@@ -14,15 +15,30 @@ const findAllTrainedUmas = async (page = 1, limit = 10) => {
     offset: parseInt(offset),
     order: [['id', 'ASC']],
     // Sertakan nama dari Uma dasarnya agar mudah ditampilkan
-    include: {
-      model: umas,
-      as: 'base_uma',
-      attributes: ['name'] // Hanya ambil kolom nama
+    include: [
+      {
+        model: umas,
+        as: 'base_uma',
+        attributes: ['name'] // Hanya ambil kolom nama
+      },
+      { model: image } // Sertakan gambar
+    ]
+  });
+  
+  // Convert image paths to full URLs
+  const dataWithImageUrls = rows.map(trainedUma => {
+    const trainedUmaData = trainedUma.toJSON();
+    if (trainedUmaData.images && trainedUmaData.images.length > 0) {
+      trainedUmaData.images = trainedUmaData.images.map(img => ({
+        ...img,
+        url: getPublicUrl(img.url)
+      }));
     }
+    return trainedUmaData;
   });
   
   return {
-    data: rows,
+    data: dataWithImageUrls,
     totalRows: count,
     currentPage: parseInt(page),
     limit: parseInt(limit)
@@ -34,7 +50,7 @@ const findAllTrainedUmas = async (page = 1, limit = 10) => {
  * @param {number} id - ID dari Trained Uma
  */
 const findTrainedUmaById = async (id) => {
-  return await trained_umas.findByPk(id, {
+  const data = await trained_umas.findByPk(id, {
     // Ini adalah query JOIN yang kompleks untuk mengambil semua data terkait
     include: [
       { model: umas, as: 'base_uma' },
@@ -49,9 +65,22 @@ const findTrainedUmaById = async (id) => {
         model: skills, 
         as: 'acquired_skills',
         through: { attributes: [] }
-      }
+      },
+      { model: image } // <-- Cukup tambahkan ini
     ]
   });
+  
+  if (data) {
+    const trainedUmaData = data.toJSON();
+    if (trainedUmaData.images && trainedUmaData.images.length > 0) {
+      trainedUmaData.images = trainedUmaData.images.map(img => ({
+        ...img,
+        url: getPublicUrl(img.url)
+      }));
+    }
+    return trainedUmaData;
+  }
+  return data;
 };
 
 module.exports = {

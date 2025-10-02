@@ -16,6 +16,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// Sajikan file statis dari direktori 'public'
+app.use(express.static('public'));
+
 // Gunakan route untuk endpoint /api/v1/umas
 app.use('/api/v1/umas', umaRoutes);
 app.use('/api/v1/factors', factorRoutes);

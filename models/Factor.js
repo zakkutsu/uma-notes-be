@@ -13,6 +13,15 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // Definisikan asosiasi di sini jika diperlukan
       // contoh: Factors.belongsTo(models.Umas);
+      
+      // Menambahkan relasi polimorfik ke Image
+      Factors.hasMany(models.image, {
+        foreignKey: 'imageable_id',
+        constraints: false,
+        scope: {
+          imageable_type: 'factor' // Cukup sesuaikan scope ini
+        }
+      });
     }
   }
   Factors.init({

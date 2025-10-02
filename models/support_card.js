@@ -10,6 +10,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'support_card_id', // Pastikan ini snake_case
         otherKey: 'skill_id',
       });
+      
+      // Menambahkan relasi polimorfik ke Image
+      SupportCards.hasMany(models.image, {
+        foreignKey: 'imageable_id',
+        constraints: false,
+        scope: {
+          imageable_type: 'support_card'
+        }
+      });
     }
   }
   SupportCards.init({

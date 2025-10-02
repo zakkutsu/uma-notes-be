@@ -17,6 +17,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'skill_id',
         otherKey: 'support_card_id'
       });
+      
+      // Menambahkan relasi polimorfik ke Image
+      Skills.hasMany(models.image, {
+        foreignKey: 'imageable_id',
+        constraints: false,
+        scope: {
+          imageable_type: 'skill'
+        }
+      });
     }
   }
   Skills.init({

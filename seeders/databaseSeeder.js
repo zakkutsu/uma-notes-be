@@ -12,6 +12,7 @@ class DatabaseSeeder {
       const existingSkills = await sequelize.models.skills.count();
       const existingFactors = await sequelize.models.factors.count();
       const existingSupportCards = await sequelize.models.support_cards.count();
+      const existingImages = await sequelize.models.image.count();
 
       // Seed Umas jika belum ada data
       if (existingUmas === 0) {
@@ -43,6 +44,14 @@ class DatabaseSeeder {
         console.log('✅ Support Cards data seeded successfully');
       } else {
         console.log('ℹ️  Support Cards data already exists, skipping...');
+      }
+
+      // Seed Images jika belum ada data
+      if (existingImages === 0) {
+        await this.seedImages();
+        console.log('✅ Images data seeded successfully');
+      } else {
+        console.log('ℹ️  Images data already exists, skipping...');
       }
 
       console.log('🎉 Database seeding completed!');
@@ -356,11 +365,212 @@ class DatabaseSeeder {
     await sequelize.models.support_cards.bulkCreate(supportCardsData);
   }
 
+  static async seedImages() {
+    // Seed gambar placeholder untuk semua entitas
+    const imagesData = [
+      // Images untuk Umas (id 1-5 sesuai dengan urutan uma di seedUmas)
+      {
+        url: 'uploads/umas/placeholder-special-week.jpg',
+        imageable_id: 1,
+        imageable_type: 'uma'
+      },
+      {
+        url: 'uploads/umas/placeholder-silence-suzuka.jpg',
+        imageable_id: 2,
+        imageable_type: 'uma'
+      },
+      {
+        url: 'uploads/umas/placeholder-tokai-teio.jpg',
+        imageable_id: 3,
+        imageable_type: 'uma'
+      },
+      {
+        url: 'uploads/umas/placeholder-vodka.jpg',
+        imageable_id: 4,
+        imageable_type: 'uma'
+      },
+      {
+        url: 'uploads/umas/placeholder-daiwa-scarlet.jpg',
+        imageable_id: 5,
+        imageable_type: 'uma'
+      },
+
+      // Images untuk Skills (id 1-10 sesuai dengan urutan skill di seedSkills)
+      {
+        url: 'uploads/skills/placeholder-concentration.png',
+        imageable_id: 1,
+        imageable_type: 'skill'
+      },
+      {
+        url: 'uploads/skills/placeholder-pace-up.png',
+        imageable_id: 2,
+        imageable_type: 'skill'
+      },
+      {
+        url: 'uploads/skills/placeholder-positioning.png',
+        imageable_id: 3,
+        imageable_type: 'skill'
+      },
+      {
+        url: 'uploads/skills/placeholder-stamina-keeper.png',
+        imageable_id: 4,
+        imageable_type: 'skill'
+      },
+      {
+        url: 'uploads/skills/placeholder-power-charge.png',
+        imageable_id: 5,
+        imageable_type: 'skill'
+      },
+      {
+        url: 'uploads/skills/placeholder-mental-strength.png',
+        imageable_id: 6,
+        imageable_type: 'skill'
+      },
+      {
+        url: 'uploads/skills/placeholder-quick-thinking.png',
+        imageable_id: 7,
+        imageable_type: 'skill'
+      },
+      {
+        url: 'uploads/skills/placeholder-full-throttle.png',
+        imageable_id: 8,
+        imageable_type: 'skill'
+      },
+      {
+        url: 'uploads/skills/placeholder-silent-storm.png',
+        imageable_id: 9,
+        imageable_type: 'skill'
+      },
+      {
+        url: 'uploads/skills/placeholder-recovery.png',
+        imageable_id: 10,
+        imageable_type: 'skill'
+      },
+
+      // Images untuk Factors (id 1-10 sesuai dengan urutan factor di seedFactors)
+      {
+        url: 'uploads/factors/placeholder-speed-blue.png',
+        imageable_id: 1,
+        imageable_type: 'factor'
+      },
+      {
+        url: 'uploads/factors/placeholder-speed-red.png',
+        imageable_id: 2,
+        imageable_type: 'factor'
+      },
+      {
+        url: 'uploads/factors/placeholder-speed-rainbow.png',
+        imageable_id: 3,
+        imageable_type: 'factor'
+      },
+      {
+        url: 'uploads/factors/placeholder-stamina-blue.png',
+        imageable_id: 4,
+        imageable_type: 'factor'
+      },
+      {
+        url: 'uploads/factors/placeholder-stamina-red.png',
+        imageable_id: 5,
+        imageable_type: 'factor'
+      },
+      {
+        url: 'uploads/factors/placeholder-stamina-rainbow.png',
+        imageable_id: 6,
+        imageable_type: 'factor'
+      },
+      {
+        url: 'uploads/factors/placeholder-mile-distance.png',
+        imageable_id: 7,
+        imageable_type: 'factor'
+      },
+      {
+        url: 'uploads/factors/placeholder-long-distance.png',
+        imageable_id: 8,
+        imageable_type: 'factor'
+      },
+      {
+        url: 'uploads/factors/placeholder-turf-surface.png',
+        imageable_id: 9,
+        imageable_type: 'factor'
+      },
+      {
+        url: 'uploads/factors/placeholder-leader-strategy.png',
+        imageable_id: 10,
+        imageable_type: 'factor'
+      },
+
+      // Images untuk Support Cards (id 1-12 sesuai dengan urutan support card di seedSupportCards)
+      {
+        url: 'uploads/support_cards/placeholder-special-week-ssr.jpg',
+        imageable_id: 1,
+        imageable_type: 'support_card'
+      },
+      {
+        url: 'uploads/support_cards/placeholder-silence-suzuka-ssr.jpg',
+        imageable_id: 2,
+        imageable_type: 'support_card'
+      },
+      {
+        url: 'uploads/support_cards/placeholder-tokai-teio-ssr.jpg',
+        imageable_id: 3,
+        imageable_type: 'support_card'
+      },
+      {
+        url: 'uploads/support_cards/placeholder-vodka-sr.jpg',
+        imageable_id: 4,
+        imageable_type: 'support_card'
+      },
+      {
+        url: 'uploads/support_cards/placeholder-daiwa-scarlet-ssr.jpg',
+        imageable_id: 5,
+        imageable_type: 'support_card'
+      },
+      {
+        url: 'uploads/support_cards/placeholder-gold-ship-sr.jpg',
+        imageable_id: 6,
+        imageable_type: 'support_card'
+      },
+      {
+        url: 'uploads/support_cards/placeholder-mejiro-mcqueen-ssr.jpg',
+        imageable_id: 7,
+        imageable_type: 'support_card'
+      },
+      {
+        url: 'uploads/support_cards/placeholder-el-condor-pasa-ssr.jpg',
+        imageable_id: 8,
+        imageable_type: 'support_card'
+      },
+      {
+        url: 'uploads/support_cards/placeholder-tm-opera-o-ssr.jpg',
+        imageable_id: 9,
+        imageable_type: 'support_card'
+      },
+      {
+        url: 'uploads/support_cards/placeholder-narita-brian-sr.jpg',
+        imageable_id: 10,
+        imageable_type: 'support_card'
+      },
+      {
+        url: 'uploads/support_cards/placeholder-miho-nosaka-r.jpg',
+        imageable_id: 11,
+        imageable_type: 'support_card'
+      },
+      {
+        url: 'uploads/support_cards/placeholder-ryuji-wada-r.jpg',
+        imageable_id: 12,
+        imageable_type: 'support_card'
+      }
+    ];
+
+    await sequelize.models.image.bulkCreate(imagesData);
+  }
+
   // Method untuk reset/clear all data
   static async clearAll() {
     try {
       console.log('🧹 Clearing all seeded data...');
       
+      await sequelize.models.image.destroy({ where: {} });
       await sequelize.models.support_cards.destroy({ where: {} });
       await sequelize.models.factors.destroy({ where: {} });
       await sequelize.models.skills.destroy({ where: {} });
