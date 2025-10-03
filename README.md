@@ -21,38 +21,45 @@ Struktur database mengikuti **ERD best practices** dengan:
 - **Self-referencing**: Parent-child relationships untuk breeding
 - **Comprehensive Fields**: 16 aptitude types, skill categories, factor colors
 
+### **Tech Stack**
+- **Runtime**: Node.js dengan Express.js
+- **Database**: PostgreSQL dengan Sequelize ORM
+- **Upload**: Multer untuk file handling
+- **Development**: Nodemon untuk hot reload
+- **Containerization**: Docker Compose untuk PostgreSQL
+
 ### **API Documentation**
 Endpoint utama yang tersedia:
 
 #### **Umas (Characters)**
-- `GET /api/umas` - List semua karakter Uma Musume
-- `GET /api/umas/:id` - Detail karakter dengan skills & associations
+- `GET /api/v1/umas` - List semua karakter Uma Musume
+- `GET /api/v1/umas/:id` - Detail karakter dengan skills & associations
 
 #### **Skills** 
-- `GET /api/skills` - Database terpusat semua skill
-- `GET /api/skills/:id` - Detail skill dengan rarity & type
+- `GET /api/v1/skills` - Database terpusat semua skill
+- `GET /api/v1/skills/:id` - Detail skill dengan rarity & type
 
 #### **Support Cards**
-- `GET /api/support-cards` - List semua support card  
-- `GET /api/support-cards/:id` - Detail card dengan skills yang diberikan
+- `GET /api/v1/support-cards` - List semua support card  
+- `GET /api/v1/support-cards/:id` - Detail card dengan skills yang diberikan
 
 #### **Factors**
-- `GET /api/factors` - List inheritance factors
-- `GET /api/factors/:id` - Detail factor dengan color & star rating
+- `GET /api/v1/factors` - List inheritance factors
+- `GET /api/v1/factors/:id` - Detail factor dengan color & star rating
 
 #### **Seeder Control**
-- `GET /api/seed` - Status seeding & statistik data
-- `POST /api/seed/run` - Manual trigger seeding
-- `DELETE /api/seed/clear` - Clear all seeded data
-- `POST /api/seed/reset` - Reset & re-seed database
+- `GET /api/v1/seed` - Status seeding & statistik data
+- `POST /api/v1/seed/run` - Manual trigger seeding
+- `DELETE /api/v1/seed/clear` - Clear all seeded data
+- `POST /api/v1/seed/reset` - Reset & re-seed database
 
 ## ✨ Fitur Utama
 
 ### **🗄️ Comprehensive Database**
-- **10+ Karakter Uma** dengan 16 aptitude types lengkap
-- **Skills Database** dengan rarity system (Normal/Rare/Unique)
-- **Support Cards** dengan tier system (SSR/SR/R)
-- **Inheritance Factors** dengan color coding & star ratings
+- **5+ Karakter Uma** dengan 16 aptitude types lengkap (Speed, Stamina, Power, Guts, Wit)
+- **Skills Database** dengan rarity system (Normal/Rare/Unique) dan 9 skill types
+- **Support Cards** dengan tier system (SSR/SR/R) dan berbagai card types
+- **Inheritance Factors** dengan color coding (Blue/Red/Green/White/Rainbow) & star ratings
 
 ### **🔄 Smart Auto Seeder**
 - **Duplicate Prevention**: Tidak akan membuat data duplikat
@@ -60,14 +67,20 @@ Endpoint utama yang tersedia:
 - **Manual Control**: API endpoints untuk kontrol seeding
 - **Data Validation**: Comprehensive field validation
 
+### **🖼️ Image Management System**
+- **Polymorphic Relations**: Satu sistem gambar untuk semua entitas
+- **File Upload**: Multer integration dengan organized folder structure
+- **URL Generation**: Automatic public URL generation untuk images
+- **Multiple Formats**: Support untuk berbagai format gambar
+
 ### **⚡ Production Ready**
 - **PostgreSQL**: Database production-grade
-- **Sequelize ORM**: Advanced query capabilities
+- **Sequelize ORM**: Advanced query capabilities dengan auto-migration
 - **Docker Support**: Containerized deployment
-- **Error Handling**: Robust error management
+- **Error Handling**: Robust error management dengan standardized responses
 - **Environment Config**: Flexible configuration system
 
-## 🖼️ Preview Singkat
+## �️ Preview Singkat
 
 ### **Database Structure**
 ```
@@ -95,17 +108,29 @@ Endpoint utama yang tersedia:
 ### **API Response Example**
 ```json
 {
-  "success": true,
+  "meta": {
+    "code": 200,
+    "status": "Data Uma berhasil diambil",
+    "message": true,
+    "isPaginated": true
+  },
+  "pagination": {
+    "currentPage": 1,
+    "totalPages": 3,
+    "totalRows": 25,
+    "limit": 10,
+    "hasNextPage": true,
+    "hasPrevPage": false,
+    "showing": "1-10 of 25 items"
+  },
   "data": {
     "id": 1,
     "name": "Special Week",
     "speed_aptitude": "A",
     "stamina_aptitude": "B",
-    "skills": [
+    "images": [
       {
-        "skill_name": "Full Throttle",
-        "skill_rarity": "Unique",
-        "skill_category": "unique"
+        "url": "http://localhost:3000/uploads/umas/placeholder-special-week.jpg"
       }
     ]
   }
@@ -133,9 +158,27 @@ Endpoint utama yang tersedia:
    ```
 
 3. **Setup Environment**
-   ```bash
-   cp .env.example .env
-   # Edit .env sesuai konfigurasi database
+   Buat file `.env` di root directory:
+   ```env
+   # Database Configuration
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_NAME=uma_notes_db
+   DB_USER=your_username
+   DB_PASSWORD=your_password
+
+   # Server Configuration
+   PORT=3000
+   NODE_ENV=development
+
+   # Auto Seeding (set to 'true' for automatic seeding on startup)
+   AUTO_SEED=true
+
+   # Production Database (optional)
+   PROD_DB_HOST=your_prod_host
+   PROD_DB_NAME=your_prod_db
+   PROD_DB_USERNAME=your_prod_user
+   PROD_DB_PASSWORD=your_prod_password
    ```
 
 4. **Start Database**
@@ -145,24 +188,61 @@ Endpoint utama yang tersedia:
 
 5. **Run Application**
    ```bash
+   # Development mode dengan auto-reload
+   npm run dev
+   
+   # Production mode
    npm start
    # Server akan berjalan di http://localhost:3000
    ```
 
 6. **Verify Installation**
    ```bash
-   curl http://localhost:3000/api/seed
+   curl http://localhost:3000/api/v1/seed
    # Should return database statistics
    ```
 
-## 🎯 Isi Web & Fungsionalitas
+## � Isi Web & Fungsionalitas
 
 ### **Core Features**
-- ✅ **Uma Database**: 10+ karakter dengan data lengkap
-- ✅ **Skills System**: Centralized skill database dengan categories  
-- ✅ **Support Cards**: Card collection dengan tier system
+- ✅ **Uma Database**: 5+ karakter dengan 16 aptitude types lengkap
+- ✅ **Skills System**: Centralized skill database dengan 9 categories  
+- ✅ **Support Cards**: Card collection dengan tier system (SSR/SR/R)
 - ✅ **Inheritance System**: Parent-child breeding relationships
 - ✅ **Factor Management**: Inheritance factors dengan star ratings
+- ✅ **Image Upload**: Polymorphic image system untuk semua entitas
+
+### **API Endpoints**
+
+#### Base URL: `http://localhost:3000/api/v1`
+
+#### **🏇 Umas Endpoints**
+```http
+GET    /umas              # Get all umas with pagination
+GET    /umas/:id          # Get uma by ID
+POST   /umas              # Create new uma (with image upload)
+PUT    /umas/:id          # Update uma (with image upload)
+DELETE /umas/:id          # Delete uma
+```
+
+#### **⚡ Skills Endpoints**
+```http
+GET    /skills            # Get all skills with pagination
+GET    /skills/:id        # Get skill by ID
+POST   /skills            # Create new skill (with image upload)
+PUT    /skills/:id        # Update skill (with image upload)
+DELETE /skills/:id        # Delete skill
+```
+
+#### **🃏 Support Cards & 🧬 Factors Endpoints**
+```http
+GET    /support-cards     # Get all support cards with pagination
+GET    /support-cards/:id # Get support card by ID
+GET    /factors           # Get all factors with pagination
+GET    /factors/:id       # Get factor by ID
+GET    /trained-umas      # Get all trained umas
+GET    /trained-umas/:id  # Get trained uma by ID
+```
 
 ### **Technical Features**
 - ✅ **RESTful API**: Standard HTTP methods & status codes
@@ -170,6 +250,8 @@ Endpoint utama yang tersedia:
 - ✅ **Auto Migration**: Database schema auto-sync
 - ✅ **Seeder System**: Smart data population
 - ✅ **Error Handling**: Robust error management
+- ✅ **Pagination**: Query parameters: `?page=1&limit=10`
+- ✅ **File Upload**: `multipart/form-data` dengan field `image_file`
 
 ### **Developer Experience**
 - ✅ **Environment Config**: Flexible configuration via .env
@@ -177,67 +259,95 @@ Endpoint utama yang tersedia:
 - ✅ **API Documentation**: Clear endpoint documentation
 - ✅ **Code Structure**: Clean MVC + Services architecture
 
-## 🏷️ Tech Tags
+## 🏷️ Text Tag
 
 **Backend**: `Node.js` `Express.js` `RESTful API` `MVC Architecture`  
 **Database**: `PostgreSQL` `Sequelize ORM` `Database Migration` `Auto Seeding`  
 **DevOps**: `Docker` `Docker Compose` `Environment Variables` `Production Ready`  
 **Data**: `ERD Compliant` `Normalized Schema` `Junction Tables` `Foreign Keys`  
-**Game**: `Uma Musume` `Pretty Derby` `Character Database` `Skill System`
+**Game**: `Uma Musume` `Pretty Derby` `Character Database` `Skill System` `Umamusume` `Horse Racing` `Gacha Game` `Anime` `Horse Girls`
 
-## 🎬 Demo
+## � Demo
 
 ### **Live API Testing**
+Anda dapat menguji API menggunakan tools seperti:
+- **Postman**: Untuk comprehensive API testing
+- **curl**: Contoh request tersedia di bawah
+- **Browser**: Untuk GET endpoints
+
+### **Contoh Requests**
 ```bash
 # Get all Uma characters
-curl http://localhost:3000/api/umas
+curl http://localhost:3000/api/v1/umas
 
 # Get specific Uma with details  
-curl http://localhost:3000/api/umas/1
+curl http://localhost:3000/api/v1/umas/1
+
+# Create new uma
+curl -X POST http://localhost:3000/api/v1/umas \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Rice Shower",
+    "star_initial": 3,
+    "speed_aptitude": "A",
+    "stamina_aptitude": "A",
+    "power_aptitude": "B"
+  }'
 
 # Check seeder status
-curl http://localhost:3000/api/seed
+curl http://localhost:3000/api/v1/seed
 
 # Manual seeding
-curl -X POST http://localhost:3000/api/seed/run
+curl -X POST http://localhost:3000/api/v1/seed/run
 ```
 
 ### **Database Statistics**
 Setelah seeding sukses, database akan berisi:
-- **5 Uma Characters** dengan aptitude lengkap
-- **10 Skills** dengan rarity & categories
-- **10 Factors** dengan color & star system  
-- **12 Support Cards** dengan tier system
+- **5 Uma Characters** dengan aptitude lengkap (Special Week, Silence Suzuka, Tokai Teio, Vodka, Daiwa Scarlet)
+- **10 Skills** dengan rarity & categories (Concentration, Pace Up, Positioning, Stamina Keeper, dll)
+- **10 Factors** dengan color & star system (Speed factors, Stamina factors, Distance factors, dll)
+- **12 Support Cards** dengan tier system (Various SSR, SR, dan R cards)
+- **Placeholder Images** untuk semua entities
 
-## 🚀 Fitur Lanjutan yang Bisa Dikembangkan
+## 🔗 Frontend Repository
 
-### **Phase 3: Frontend Development** 
-- [ ] **React/Vue Frontend**: Modern UI untuk browse database
-- [ ] **Search & Filter**: Advanced filtering by aptitude, rarity, etc
-- [ ] **Character Builder**: Tool untuk planning builds & inheritance
-- [ ] **Responsive Design**: Mobile-friendly interface
+Repository frontend untuk aplikasi Uma Notes tersedia di:
+**https://github.com/zakkutsu/uma-notes.git**
 
-### **Phase 4: Advanced Features**
-- [ ] **User Authentication**: Login system untuk save builds
-- [ ] **Favorites System**: Save favorite combinations
-- [ ] **Breeding Calculator**: Optimal breeding path suggestions
-- [ ] **Stats Calculator**: Training outcome predictions
-- [ ] **Export Features**: PDF/Excel export untuk builds
+Frontend dibangun dengan teknologi modern dan menyediakan interface yang user-friendly untuk mengelola data Umamusume melalui API ini.
 
-### **Phase 5: Production Enhancement**
-- [ ] **Caching Layer**: Redis untuk performance optimization
-- [ ] **Rate Limiting**: API protection & throttling
-- [ ] **Monitoring**: Performance & usage analytics
-- [ ] **CDN Integration**: Static asset optimization
-- [ ] **Database Optimization**: Query optimization & indexing
+## 📝 Development Notes
 
-### **Phase 6: Community Features**
-- [ ] **Build Sharing**: Community build database
-- [ ] **Rating System**: User rating untuk builds
-- [ ] **Comment System**: Discussion untuk strategies
-- [ ] **Tournament Tracker**: Race result tracking
-- [ ] **Meta Analysis**: Popular builds & trends
+### Database Schema
+- **umas**: Tabel utama untuk Horse Girls
+- **skills**: Tabel skills dengan type dan rarity
+- **support_cards**: Tabel support cards
+- **factors**: Tabel factors dengan color coding
+- **trained_umas**: Tabel untuk tracking trained umas
+- **images**: Tabel polymorphic untuk semua gambar
+- **Junction Tables**: untuk many-to-many relationships
+
+### Folder Structure
+```
+📁 node-uma-notes-be/
+├── 📄 app.js                 # Main application entry (legacy)
+├── 📄 index.js               # Current application entry point
+├── 📄 package.json           # Dependencies dan scripts
+├── 📄 docker-compose.yml     # PostgreSQL container setup
+├── 📁 config/               # Database configuration
+├── 📁 controllers/          # Route handlers
+├── 📁 models/               # Sequelize models
+├── 📁 routes/               # API route definitions
+├── 📁 services/             # Business logic layer
+├── 📁 helpers/              # Utility functions
+├── 📁 middlewares/          # Custom middlewares
+├── 📁 seeders/              # Database seeding
+└── 📁 public/uploads/       # File upload storage
+```
+
+### Environment Variables
+Pastikan semua environment variables di file `.env` sudah dikonfigurasi dengan benar sebelum menjalankan aplikasi.
 
 ---
 
-**Built with ❤️ for Uma Musume Pretty Derby community**
+**Happy Coding! 🏇✨**
