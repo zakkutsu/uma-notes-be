@@ -1597,4 +1597,557 @@ erDiagram
     <li>🐎 <strong>5+ウマ娘キャラクター</strong> 16適性タイプ付き</li>
     <li>⚡ <strong>スキルデータベース</strong> レアリティシステム付き</li>
     <li>🃏 <strong>サポートカード</strong> ティアシステム付き</li>
-    <li>🧬 <strong>継承ファクター</strong> カ
+    <li>🧬 <strong>継承ファクター</strong> カラーコーディング付き</li>
+  </ul>
+</td>
+<td align="center" width="25%">
+  <h3>🔄 スマート自動シーダー</h3>
+  <ul align="left">
+    <li>🚫 <strong>重複防止</strong> データの重複なし</li>
+    <li>⚙️ <strong>環境制御</strong> AUTO_SEED切り替え</li>
+    <li>🎮 <strong>手動制御</strong> APIエンドポイント制御</li>
+    <li>✅ <strong>データ検証</strong> 包括的フィールド検証</li>
+  </ul>
+</td>
+<td align="center" width="25%">
+  <h3>🖼️ 画像管理</h3>
+  <ul align="left">
+    <li>🔗 <strong>ポリモーフィック関係</strong> 全体統一システム</li>
+    <li>📤 <strong>ファイルアップロード</strong> Multer統合</li>
+    <li>🌐 <strong>URL生成</strong> 自動パブリックURL</li>
+    <li>📁 <strong>複数フォーマット</strong> 様々な画像フォーマット</li>
+  </ul>
+</td>
+<td align="center" width="25%">
+  <h3>⚡ プロダクション対応</h3>
+  <ul align="left">
+    <li>🗄️ <strong>PostgreSQL</strong> プロダクション級データベース</li>
+    <li>🔍 <strong>Sequelize ORM</strong> 高度なクエリ機能</li>
+    <li>🐳 <strong>Docker サポート</strong> コンテナ化デプロイメント</li>
+    <li>❌ <strong>エラーハンドリング</strong> 堅牢な管理</li>
+  </ul>
+</td>
+</tr>
+</table>
+</div>
+
+## 🚀 クイックスタート
+
+### 📋 前提条件
+
+<div align="center">
+<table>
+<tr>
+<td align="center">
+  <img src="https://img.shields.io/badge/Node.js-v18+-339933?style=for-the-badge&logo=node.js" alt="Node.js"/>
+</td>
+<td align="center">
+  <img src="https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker" alt="Docker"/>
+</td>
+<td align="center">
+  <img src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql" alt="PostgreSQL"/>
+</td>
+</tr>
+</table>
+</div>
+
+### ⚡ インストール手順
+
+<details>
+<summary>📥 <strong>1. リポジトリのクローン</strong></summary>
+
+```bash
+git clone https://github.com/zakkutsu/uma-notes-be.git
+cd uma-notes-be
+```
+
+</details>
+
+<details>
+<summary>📦 <strong>2. 依存関係のインストール</strong></summary>
+
+```bash
+npm install
+```
+
+</details>
+
+<details>
+<summary>⚙️ <strong>3. 環境設定</strong></summary>
+
+ルートディレクトリに`.env`ファイルを作成:
+
+```env
+# データベース設定
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=uma_notes_db
+DB_USER=your_username
+DB_PASSWORD=your_password
+
+# サーバー設定
+PORT=3000
+NODE_ENV=development
+
+# 自動シーディング（起動時の自動シーディングには'true'を設定）
+AUTO_SEED=true
+
+# プロダクションデータベース（オプション）
+PROD_DB_HOST=your_prod_host
+PROD_DB_NAME=your_prod_db
+PROD_DB_USERNAME=your_prod_user
+PROD_DB_PASSWORD=your_prod_password
+```
+
+</details>
+
+<details>
+<summary>🐳 <strong>4. データベース起動</strong></summary>
+
+```bash
+docker-compose up -d
+```
+
+</details>
+
+<details>
+<summary>🚀 <strong>5. アプリケーション実行</strong></summary>
+
+```bash
+# 自動リロード付き開発モード
+npm run dev
+
+# プロダクションモード
+npm start
+# サーバーは http://localhost:3000 で実行されます
+```
+
+</details>
+
+<details>
+<summary>✅ <strong>6. インストール確認</strong></summary>
+
+```bash
+curl http://localhost:3000/api/v1/seed
+# データベース統計が返されるはずです
+```
+
+</details>
+
+## 📚 API ドキュメント
+
+<div align="center">
+
+### 🌐 ベースURL
+`http://localhost:3000/api/v1`
+
+</div>
+
+### 🐎 ウマ娘エンドポイント
+
+<div align="center">
+<table>
+<tr>
+<th>メソッド</th>
+<th>エンドポイント</th>
+<th>説明</th>
+<th>認証</th>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GET-4CAF50?style=flat-square" alt="GET"/></td>
+<td><code>/umas</code></td>
+<td>全ウマ娘キャラクターのリスト</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GET-4CAF50?style=flat-square" alt="GET"/></td>
+<td><code>/umas/:id</code></td>
+<td>スキル・関連情報付きキャラクター詳細</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/POST-FF9800?style=flat-square" alt="POST"/></td>
+<td><code>/umas</code></td>
+<td>新規ウマ娘作成（画像アップロード付き）</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/PUT-2196F3?style=flat-square" alt="PUT"/></td>
+<td><code>/umas/:id</code></td>
+<td>ウマ娘更新（画像アップロード付き）</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/DELETE-F44336?style=flat-square" alt="DELETE"/></td>
+<td><code>/umas/:id</code></td>
+<td>ウマ娘削除</td>
+<td>❌</td>
+</tr>
+</table>
+</div>
+
+### ⚡ スキルエンドポイント
+
+<div align="center">
+<table>
+<tr>
+<th>メソッド</th>
+<th>エンドポイント</th>
+<th>説明</th>
+<th>認証</th>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GET-4CAF50?style=flat-square" alt="GET"/></td>
+<td><code>/skills</code></td>
+<td>全スキルの一元化データベース</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GET-4CAF50?style=flat-square" alt="GET"/></td>
+<td><code>/skills/:id</code></td>
+<td>レアリティ・タイプ付きスキル詳細</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/POST-FF9800?style=flat-square" alt="POST"/></td>
+<td><code>/skills</code></td>
+<td>新規スキル作成（画像アップロード付き）</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/PUT-2196F3?style=flat-square" alt="PUT"/></td>
+<td><code>/skills/:id</code></td>
+<td>スキル更新（画像アップロード付き）</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/DELETE-F44336?style=flat-square" alt="DELETE"/></td>
+<td><code>/skills/:id</code></td>
+<td>スキル削除</td>
+<td>❌</td>
+</tr>
+</table>
+</div>
+
+### 🃏 サポートカード & 🧬 ファクターエンドポイント
+
+<div align="center">
+<table>
+<tr>
+<th>メソッド</th>
+<th>エンドポイント</th>
+<th>説明</th>
+<th>認証</th>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GET-4CAF50?style=flat-square" alt="GET"/></td>
+<td><code>/support-cards</code></td>
+<td>全サポートカードのリスト</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GET-4CAF50?style=flat-square" alt="GET"/></td>
+<td><code>/support-cards/:id</code></td>
+<td>提供スキル付きカード詳細</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GET-4CAF50?style=flat-square" alt="GET"/></td>
+<td><code>/factors</code></td>
+<td>継承ファクターのリスト</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GET-4CAF50?style=flat-square" alt="GET"/></td>
+<td><code>/factors/:id</code></td>
+<td>カラー・星評価付きファクター詳細</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GET-4CAF50?style=flat-square" alt="GET"/></td>
+<td><code>/trained-umas</code></td>
+<td>全育成ウマ娘のリスト</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GET-4CAF50?style=flat-square" alt="GET"/></td>
+<td><code>/trained-umas/:id</code></td>
+<td>育成ウマ娘詳細</td>
+<td>❌</td>
+</tr>
+</table>
+</div>
+
+### 🌱 シーダー制御エンドポイント
+
+<div align="center">
+<table>
+<tr>
+<th>メソッド</th>
+<th>エンドポイント</th>
+<th>説明</th>
+<th>認証</th>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GET-4CAF50?style=flat-square" alt="GET"/></td>
+<td><code>/seed</code></td>
+<td>シーディング状態・データ統計</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/POST-FF9800?style=flat-square" alt="POST"/></td>
+<td><code>/seed/run</code></td>
+<td>手動シーディング実行</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/DELETE-F44336?style=flat-square" alt="DELETE"/></td>
+<td><code>/seed/clear</code></td>
+<td>全シードデータのクリア</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/POST-FF9800?style=flat-square" alt="POST"/></td>
+<td><code>/seed/reset</code></td>
+<td>データベースのリセット・再シード</td>
+<td>❌</td>
+</tr>
+</table>
+</div>
+
+<details>
+<summary>📊 <strong>API レスポンス例</strong></summary>
+
+```json
+{
+  "meta": {
+    "code": 200,
+    "status": "ウマ娘データの取得に成功しました",
+    "message": true,
+    "isPaginated": true
+  },
+  "pagination": {
+    "currentPage": 1,
+    "totalPages": 3,
+    "totalRows": 25,
+    "limit": 10,
+    "hasNextPage": true,
+    "hasPrevPage": false,
+    "showing": "1-10 of 25 items"
+  },
+  "data": {
+    "id": 1,
+    "name": "スペシャルウィーク",
+    "speed_aptitude": "A",
+    "stamina_aptitude": "B",
+    "images": [
+      {
+        "url": "http://localhost:3000/uploads/umas/placeholder-special-week.jpg"
+      }
+    ]
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>💻 <strong>リクエスト例</strong></summary>
+
+```bash
+# 全ウマ娘キャラクター取得
+curl http://localhost:3000/api/v1/umas
+
+# 特定のウマ娘の詳細取得
+curl http://localhost:3000/api/v1/umas/1
+
+# 新規ウマ娘作成
+curl -X POST http://localhost:3000/api/v1/umas \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "ライスシャワー",
+    "star_initial": 3,
+    "speed_aptitude": "A",
+    "stamina_aptitude": "A",
+    "power_aptitude": "B"
+  }'
+
+# シーダー状態確認
+curl http://localhost:3000/api/v1/seed
+
+# 手動シーディング
+curl -X POST http://localhost:3000/api/v1/seed/run
+```
+
+</details>
+
+## 📱 デモ・テスト
+
+### 🌐 ライブAPIテスト
+
+<div align="center">
+<table>
+<tr>
+<td align="center" width="33%">
+  <strong>📮 Postman</strong><br/>
+  <sub>包括的APIテスト</sub>
+</td>
+<td align="center" width="33%">
+  <strong>🌐 ブラウザ</strong><br/>
+  <sub>GETエンドポイントテスト</sub>
+</td>
+<td align="center" width="33%">
+  <strong>⚡ curl</strong><br/>
+  <sub>コマンドラインテスト</sub>
+</td>
+</tr>
+</table>
+</div>
+
+### 📊 データベース統計
+
+シーディング成功後、データベースには以下が含まれます：
+
+<div align="center">
+<table>
+<tr>
+<td align="center">
+  <strong>🐎 5ウマ娘キャラクター</strong><br/>
+  <sub>スペシャルウィーク、サイレンススズカ、トウカイテイオー、ウオッカ、ダイワスカーレット</sub>
+</td>
+<td align="center">
+  <strong>⚡ 10スキル</strong><br/>
+  <sub>集中力、ペースアップ、ポジショニング、スタミナキープなど</sub>
+</td>
+</tr>
+<tr>
+<td align="center">
+  <strong>🧬 10ファクター</strong><br/>
+  <sub>スピードファクター、スタミナファクター、距離ファクターなど</sub>
+</td>
+<td align="center">
+  <strong>🃏 12サポートカード</strong><br/>
+  <sub>各種SSR、SR、Rカード</sub>
+</td>
+</tr>
+</table>
+</div>
+
+## 🔧 開発ノート
+
+<details>
+<summary>📁 <strong>プロジェクト構造</strong></summary>
+
+```
+📁 uma-notes-be/
+├── 📄 app.js                 # メインアプリケーションエントリ（レガシー）
+├── 📄 index.js               # 現在のアプリケーションエントリポイント
+├── 📄 package.json           # 依存関係とスクリプト
+├── 📄 docker-compose.yml     # PostgreSQLコンテナ設定
+├── 📁 config/               # データベース設定
+├── 📁 controllers/          # ルートハンドラー
+├── 📁 models/               # Sequelizeモデル
+├── 📁 routes/               # APIルート定義
+├── 📁 services/             # ビジネスロジック層
+├── 📁 helpers/              # ユーティリティ関数
+├── 📁 middlewares/          # カスタムミドルウェア
+├── 📁 seeders/              # データベースシーディング
+└── 📁 public/uploads/       # ファイルアップロードストレージ
+```
+
+</details>
+
+## 🎮 機能概要
+
+<div align="center">
+<table>
+<tr>
+<th>✅ コア機能</th>
+<th>🔧 技術機能</th>
+<th>👨‍💻 開発者体験</th>
+</tr>
+<tr>
+<td>
+  ✅ ウマ娘データベース（5+キャラクター）<br/>
+  ✅ スキルシステム（9カテゴリ）<br/>
+  ✅ サポートカード（ティアシステム）<br/>
+  ✅ 継承システム<br/>
+  ✅ ファクター管理<br/>
+  ✅ 画像アップロードシステム
+</td>
+<td>
+  ✅ RESTful API<br/>
+  ✅ データ検証<br/>
+  ✅ 自動マイグレーション<br/>
+  ✅ シーダーシステム<br/>
+  ✅ エラーハンドリング<br/>
+  ✅ ページネーション対応
+</td>
+<td>
+  ✅ 環境設定<br/>
+  ✅ Docker対応<br/>
+  ✅ APIドキュメント<br/>
+  ✅ コード構造<br/>
+  ✅ ホットリロード<br/>
+  ✅ ファイルアップロード
+</td>
+</tr>
+</table>
+</div>
+
+## 🏷️ タグ
+
+<div align="center">
+<p>
+  <img src="https://img.shields.io/badge/Backend-Node.js-339933?style=flat-square&logo=node.js" alt="Node.js"/>
+  <img src="https://img.shields.io/badge/Framework-Express.js-000000?style=flat-square&logo=express" alt="Express"/>
+  <img src="https://img.shields.io/badge/API-RESTful-25D366?style=flat-square" alt="RESTful"/>
+  <img src="https://img.shields.io/badge/Architecture-MVC-4169E1?style=flat-square" alt="MVC"/>
+</p>
+<p>
+  <img src="https://img.shields.io/badge/Database-PostgreSQL-336791?style=flat-square&logo=postgresql" alt="PostgreSQL"/>
+  <img src="https://img.shields.io/badge/ORM-Sequelize-52B0E7?style=flat-square&logo=sequelize" alt="Sequelize"/>
+  <img src="https://img.shields.io/badge/Migration-Auto-32CD32?style=flat-square" alt="Migration"/>
+  <img src="https://img.shields.io/badge/Seeding-Auto-FFD700?style=flat-square" alt="Seeding"/>
+</p>
+<p>
+  <img src="https://img.shields.io/badge/DevOps-Docker-2496ED?style=flat-square&logo=docker" alt="Docker"/>
+  <img src="https://img.shields.io/badge/Config-Environment-FF6B6B?style=flat-square" alt="Environment"/>
+  <img src="https://img.shields.io/badge/Ready-Production-228B22?style=flat-square" alt="Production"/>
+</p>
+<p>
+  <img src="https://img.shields.io/badge/Game-ウマ娘-FF69B4?style=flat-square" alt="Uma Musume"/>
+  <img src="https://img.shields.io/badge/Game-プリティーダービー-FF1493?style=flat-square" alt="Pretty Derby"/>
+  <img src="https://img.shields.io/badge/Type-Database_API-4169E1?style=flat-square" alt="Database API"/>
+  <img src="https://img.shields.io/badge/Category-競馬-8B4513?style=flat-square" alt="Horse Racing"/>
+</p>
+</div>
+
+## 🔗 関連リポジトリ
+
+<div align="center">
+<table>
+<tr>
+<td align="center">
+  <a href="https://github.com/zakkutsu/uma-notes-fe.git">
+    <img src="https://img.shields.io/badge/🎨_フロントエンド-uma--notes--fe-blueviolet?style=for-the-badge&logo=github" alt="Frontend"/>
+  </a>
+  <br><sub>React + TypeScriptによるフロントエンド</sub>
+</td>
+<td align="center">
+  <a href="https://github.com/zakkutsu/uma-notes.git">
+    <img src="https://img.shields.io/badge/📚_ドキュメント-uma--notes-blue?style=for-the-badge&logo=github" alt="Documentation"/>
+  </a>
+  <br><sub>プロジェクトドキュメント・概要</sub>
+</td>
+</tr>
+</table>
+</div>
+
+---
+
+<div align="center">
+
+**🎉 楽しいコーディングを！🏇✨**
+
+</div>
